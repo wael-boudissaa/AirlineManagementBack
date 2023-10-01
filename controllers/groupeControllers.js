@@ -72,9 +72,26 @@ const getGroupes = async (req, res) => {
   }
 };
 
-const getEmployesFromGroupe = async (req, res) => {
+const getEmployesFromGroupeHasnoFlight = async (req, res) => {
   const groupename = req.query.name_groupe;
-  const query = `select * from employein${groupename} natural join employe natural join profile`;
+  const query = `select profile.*,employe.*  from employein${groupename} natural join employe natural join profile left join employehasflight as e on employe.idemploye = e.idemploye   
+  where e.idflight is null 
+  union 
+  select profile.*,employe.*  from employe natural join employein${groupename} natural join profile natural join employehasflight natural join flight  where flight.dateflight < curdate()
+  and profile.idprofile not in (
+  select profile.idprofile from employe natural join profile natural join employehasflight natural join flight  where flight.dateflight > curdate())
+  `;
+  try {
+    const [result] = await pool.execute(query);
+    if (result) res.send(result);
+  } catch (err) {
+    res.send({ msg: err });
+  }
+};
+const getEmployeGroupe = async (req, res) => {
+  const groupename = req.query.name_groupe;
+  const query = `select * from employein${groupename} natural join employe natural join profile 
+  `;
   try {
     const [result] = await pool.execute(query);
     if (result) res.send(result);
@@ -200,5 +217,6 @@ module.exports = {
   createGroupe,
   getGroupes,
   affectGroupe,
-  getEmployesFromGroupe,
+  getEmployesFromGroupeHasnoFlight,
+  getEmployeGroupe,
 };

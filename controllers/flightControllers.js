@@ -12,8 +12,11 @@ const pool = mysql.createPool({
 
 const getFlights = asyncHandler(async (req, res) => {
   query = `
-    SELECT * FROM
-      (flight) NATURAL JOIN flightinfo `;
+  SELECT *
+  FROM flight
+  NATURAL JOIN flightinfo
+  WHERE dateflight BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY);
+  `;
 
   try {
     const [result] = await pool.execute(query);
@@ -32,7 +35,7 @@ const getFlight = asyncHandler(async (req, res) => {
   const idflight = req.query.idflight;
   query = `
     SELECT * FROM
-     flight NATURAL JOIN flightinfo natural join flightpilot 
+     flight NATURAL JOIN flightinfo  natural join airplane natural join airplanepilot
       WHERE  idflight = ?
      
       `;
@@ -51,18 +54,23 @@ const getFlight = asyncHandler(async (req, res) => {
 });
 
 const getFlightsToday = asyncHandler(async (req, res) => {
+  const authorization = req.headers.authorization;
   query = `
     SELECT idflight FROM
       (flight)
   WHERE DATE(flight.dateflight) = CURDATE() `;
 
   try {
-    const [result] = await pool.execute(query);
-    if (result) {
-      return res.json({ msg: "success", result });
+    if (authorization) {
+      const [result] = await pool.execute(query);
+      if (result) {
+        return res.json({ msg: "success", result });
+      } else {
+        console.error("Error inserting flight: No rows affected");
+        res.status(500).json({ error: "Internal server error" });
+      }
     } else {
-      console.error("Error inserting flight: No rows affected");
-      res.status(500).json({ error: "Internal server error" });
+      res.status(403);
     }
   } catch (err) {
     res.status(500).json({ error: "Internal server error", error });
@@ -85,7 +93,6 @@ const postFlights = asyncHandler(async (req, res) => {
 
   try {
     const [result] = await pool.execute(query, values);
-
     if (result && result.affectedRows > 0) {
       return res.json({ msg: "success", result });
     } else {
@@ -98,6 +105,26 @@ const postFlights = asyncHandler(async (req, res) => {
   }
 });
 
+const getFlightForOneEmploye = async (req, res) => {
+  const idprofile = req.query.idprofile;
+  const query = `SELECT * FROM flight natural join employehasflight natural join employe natural join profile natural join flightinfo where 
+  idprofile ='${idprofile}' and dateflight>CURDATE()
+  `;
+  try {
+    console.log(idprofile);
+    const [result] = await pool.execute(query);
+    console.log(result);
+
+    if (result) {
+      return res.status(200).send(result);
+    } else {
+      return res.send({ msg: "There is no Flight yet" });
+    }
+  } catch (err) {
+    return res.send(err);
+  }
+};
+
 //  (err, result) => {
 //     if (err) {
 //       console.error("Error inserting flight:", err);
@@ -106,4 +133,10 @@ const postFlights = asyncHandler(async (req, res) => {
 //       res.json({ msg: "success", result });
 //     }
 //   }
-module.exports = { getFlightsToday, postFlights, getFlights, getFlight };
+module.exports = {
+  getFlightsToday,
+  postFlights,
+  getFlights,
+  getFlight,
+  getFlightForOneEmploye,
+};

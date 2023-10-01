@@ -11,8 +11,8 @@ const logRequests = (req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next(); // Call next to continue processing the request
 };
-
-// Apply the middleware to every request
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logRequests);
 app.use(
   cors({
@@ -28,6 +28,7 @@ app.use("/flightinfo", require("./routes/flightInfoRoutes"));
 app.use("/employe", require("./routes/employeRouter"));
 app.use("/sign", require("./routes/signInRoute"));
 app.use("/groupe", require("./routes/groupeRouter"));
+app.use("/profile", require("./routes/profileRouter"));
 
 app.use(errHandler);
 

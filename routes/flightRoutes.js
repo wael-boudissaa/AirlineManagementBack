@@ -6,6 +6,7 @@ const {
   postFlights,
   getFlights,
   getFlight,
+  getFlightForOneEmploye
 } = require("../controllers/flightControllers");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -13,6 +14,7 @@ const bcrypt = require("bcryptjs");
 router.route("/today").get(getFlightsToday);
 router.route("/").get(getFlights);
 router.route(`/this`).get(getFlight);
+router.route(`/q`).get(getFlightForOneEmploye);
 
 router.route("/").post(postFlights);
 

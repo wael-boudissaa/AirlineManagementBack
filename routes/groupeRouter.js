@@ -4,14 +4,17 @@ const {
   createGroupe,
   getGroupes,
   affectGroupe,
-  getEmployesFromGroupe,
+  getEmployeGroupe,
+  getEmployesFromGroupeHasnoFlight,
 } = require("../controllers/groupeControllers");
 
 // router.route("/").post(createGroupe);
 router.route("/").post(createGroupe);
 
 router.route("/").get(getGroupes);
-router.route(`/this`).get(getEmployesFromGroupe);
+router.route("/this").get(getEmployeGroupe);
+
+router.route(`/hasnoflights`).get(getEmployeGroupe);
 
 router.route("/").patch(affectGroupe);
 
