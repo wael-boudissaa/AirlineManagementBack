@@ -35,6 +35,26 @@ const getEmploye = async (req, res) => {
     console.log({ msg: err });
   }
 };
+const getOneEmploye = async (req, res) => {
+  const query = `select * from employe NATURAL JOIN profile where idprofile = "${req.query.idprofile}"`;
+  try {
+    const [result] = await pool.execute(query);
+    if (result) return res.send(result);
+    else return console.log({ msg: err });
+  } catch (err) {
+    console.log({ msg: err });
+  }
+};
+const getOneAdmin = async (req, res) => {
+  const query = `select adminid from superuser NATURAL JOIN profile where idprofile = "${req.query.idprofile}"`;
+  try {
+    const [result] = await pool.execute(query);
+    if (result) return res.send(result);
+    else return console.log({ msg: err });
+  } catch (err) {
+    console.log({ msg: err });
+  }
+};
 
 const getEmployeFlight = asyncHandler(async (req, res) => {
   const idflight = req.query.idflight;
@@ -80,9 +100,9 @@ const postEmployeFlight = async (req, res) => {
   const values = [req.body.idflight, req.body.idemploye];
 
   try {
-    const result = await pool.execute(queryPost, values);
-    if (result) return res.status(200).send("employe affected");
-    else return console.log({ msg: "err" });
+    const [result] = await pool.execute(queryPost, values);
+    if (result) return res.status(200).send({ msg: "employe affected" });
+    else return res.send({ msg: "err" });
   } catch (err) {
     console.log(err);
   }
@@ -132,4 +152,6 @@ module.exports = {
   addProfileEmploye,
   addProfileAdmin,
   getEmploye,
+  getOneEmploye,
+  getOneAdmin,
 };

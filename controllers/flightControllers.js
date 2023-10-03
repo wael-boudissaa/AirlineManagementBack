@@ -30,6 +30,47 @@ const getFlights = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Internal server error", err });
   }
 });
+const getAllFlights = asyncHandler(async (req, res) => {
+  query = `
+  SELECT *
+  FROM flight
+  NATURAL JOIN flightinfo
+  order by dateflight desc
+  `;
+
+  try {
+    const [result] = await pool.execute(query);
+    if (result) {
+      return res.status(200).json({ msg: "success", result });
+    } else {
+      console.error("Error inserting flight: No rows affected");
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error", err });
+  }
+});
+const getYearFlights = asyncHandler(async (req, res) => {
+  query = `
+  SELECT *
+  FROM flight
+  NATURAL JOIN flightinfo
+  WHERE dateflight BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 1 YEAR);
+  
+  `;
+
+  try {
+    const [result] = await pool.execute(query);
+    if (result) {
+      return res.status(200).json({ msg: "success", result });
+    } else {
+      console.error("Error inserting flight: No rows affected");
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error", err });
+  }
+});
 
 const getFlight = asyncHandler(async (req, res) => {
   const idflight = req.query.idflight;
@@ -139,4 +180,6 @@ module.exports = {
   getFlights,
   getFlight,
   getFlightForOneEmploye,
+  getAllFlights,
+  getYearFlights,
 };

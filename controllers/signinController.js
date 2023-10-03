@@ -19,7 +19,7 @@ const pool = mysql.createPool({
 });
 const ageToken = 60 * 60 * 1000;
 
-const createAccesToken = (id, type) => {
+const createAccesToken = (id, type,) => {
   return jwt.sign({ id: id, type: type }, "accesbaba", { expiresIn: "15min" });
 };
 function createRefreshToken(id, type, expiresIn = "1d") {

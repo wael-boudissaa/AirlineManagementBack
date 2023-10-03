@@ -20,12 +20,12 @@ const getFlightInfos = async (req, res) => {
     console.log({ err: err });
   }
 };
-const postFlightInfos = async (req, res) => {
+const postFlightInfos = async ( req, res) => {
   const query =
     " INSERT INTO flightinfo(idflightinfo,duration,destination,flightfrom) VALUES(?,?,?,?) ";
 
   values = [
-    req.body.idflightinfo,
+    uuidv4(),
     req.body.duration,
     req.body.destination,
     req.body.flightfrom,

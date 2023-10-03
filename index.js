@@ -29,6 +29,7 @@ app.use("/employe", require("./routes/employeRouter"));
 app.use("/sign", require("./routes/signInRoute"));
 app.use("/groupe", require("./routes/groupeRouter"));
 app.use("/profile", require("./routes/profileRouter"));
+app.use("/message", require("./routes/messageRouter"));
 
 app.use(errHandler);
 
