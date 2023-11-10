@@ -74,7 +74,7 @@ const getTicketEmploye = async (req, res) => {
 const getTicketAdmin = async (req, res) => {
   const adminid = req.query.adminid;
 
-  const query = `SELECT * FROM ticket where adminid ="${adminid}"`;
+  const query = `SELECT adminid,idemploye,idticket,title,email,first_name FROM ticket natural join employe natural join profile where adminid ="${adminid}"  `;
   try {
     const [result] = await pool.execute(query);
     if (result) {
@@ -102,7 +102,7 @@ const getMessages = async (req, res) => {
   }
 };
 
-//?? we should add time 
+//?? we should add time
 const postMessage = async (req, res) => {
   const message = req.body.message;
   const queryInsertMessage = `insert into message(idmessage,text,source,idticket,messagetime) values (?,?,?,?,NOW())`;

@@ -19,7 +19,7 @@ const pool = mysql.createPool({
 });
 const ageToken = 60 * 60 * 1000;
 
-const createAccesToken = (id, type,) => {
+const createAccesToken = (id, type) => {
   return jwt.sign({ id: id, type: type }, "accesbaba", { expiresIn: "15min" });
 };
 function createRefreshToken(id, type, expiresIn = "1d") {
@@ -108,7 +108,7 @@ const LogIn = async (req, res, next) => {
         existingUser[0].status
       );
 
-      const refreshToken = createRefreshToken(existingUser[0].idprofile);
+      const refreshToken = createRefreshToken(existingUser[0].idprofile,  existingUser[0].status);
       await pool.execute(
         `UPDATE profile SET refreshToken = ? WHERE idprofile = ?`,
         [refreshToken, existingUser[0].idprofile]
@@ -158,6 +158,7 @@ const updateToken = async (req, res) => {
               .json({ error: "Refresh token verification error" });
           }
         }
+        console.log(decoded);
 
         console.log("Refresh token is valid");
 

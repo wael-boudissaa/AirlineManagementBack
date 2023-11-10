@@ -14,7 +14,7 @@ router.route("/").post(createGroupe);
 router.route("/").get(getGroupes);
 router.route("/this").get(getEmployeGroupe);
 
-router.route(`/hasnoflights`).get(getEmployeGroupe);
+router.route(`/hasnoflights`).get(getEmployesFromGroupeHasnoFlight);
 
 router.route("/").patch(affectGroupe);
 

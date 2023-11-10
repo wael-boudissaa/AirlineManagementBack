@@ -77,7 +77,7 @@ const getEmployesFromGroupeHasnoFlight = async (req, res) => {
   const query = `select profile.*,employe.*  from employein${groupename} natural join employe natural join profile left join employehasflight as e on employe.idemploye = e.idemploye   
   where e.idflight is null 
   union 
-  select profile.*,employe.*  from employe natural join employein${groupename} natural join profile natural join employehasflight natural join flight  where flight.dateflight < curdate()
+  select profile.*,employe.*  from employe natural join employein${groupename} natural join profile natural join employehasflight natural join flight  where flight.dateflight <= curdate()
   and profile.idprofile not in (
   select profile.idprofile from employe natural join profile natural join employehasflight natural join flight  where flight.dateflight > curdate())
   `;

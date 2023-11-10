@@ -51,4 +51,20 @@ const getProfile = async (req, res) => {
   }
 };
 
-module.exports = { getProfile };
+const getOneProfile = async (req, res) => {
+  const idprofile = req.body.idprofile;
+  const query = `SELECT * FROM PROFILE WHERE idprofile = '${idprofile}'`;
+
+  try {
+    const [result] = await pool.execute(query);
+    if (result) {
+      res.send(result);
+    } else {
+      res.send("There is no profile ");
+    }
+  } catch (err) {
+    res.send(err);
+  }
+};
+
+module.exports = { getProfile, getOneProfile };

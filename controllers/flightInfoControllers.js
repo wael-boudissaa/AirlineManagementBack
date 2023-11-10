@@ -22,10 +22,11 @@ const getFlightInfos = async (req, res) => {
 };
 const postFlightInfos = async ( req, res) => {
   const query =
-    " INSERT INTO flightinfo(idflightinfo,duration,destination,flightfrom) VALUES(?,?,?,?) ";
+    " INSERT INTO flightinfo(idflightinfo,description,duration,destination,flightfrom) VALUES(?,?,?,?,?) ";
 
   values = [
     uuidv4(),
+    req.body.description,
     req.body.duration,
     req.body.destination,
     req.body.flightfrom,
