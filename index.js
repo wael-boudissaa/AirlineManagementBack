@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logRequests);
 app.use(
   cors({
-    origin: "https://airline-management-front.vercel.app/", // Replace with your frontend's origin
+    origin: "https://airline-management-front.vercel.app", // Replace with your frontend's origin
     methods: "GET,POST,PATCH", // Specify the allowed HTTP methods
     credentials: true, // Allow cookies and other credentials to be sent
   })
