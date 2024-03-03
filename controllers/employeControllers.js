@@ -108,7 +108,7 @@ const postEmployeFlight = async (req, res) => {
   }
 };
 const addProfileEmploye = async (req, res) => {
-  const queryPatchEmploye = `INSERT INTO EMPLOYE (idemploye,idprofile) VALUES (?,?); `;
+  const queryPatchEmploye = `INSERT INTO employe (idemploye,idprofile) VALUES (?,?); `;
 
   try {
     const idEmploye = uuidv4();
