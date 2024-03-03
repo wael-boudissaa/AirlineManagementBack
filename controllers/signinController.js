@@ -12,10 +12,10 @@ const uuid = uuidv4();
 const validator = require("validator");
 
 const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "wael",
-  database: "flightmanagement",
+  host: "sql11.freemysqlhosting.net",
+  user: "sql11688344",
+  password: "fkjJj5KBKt",
+  database: "sql11688344",
 });
 const ageToken = 60 * 60 * 1000;
 
@@ -108,7 +108,10 @@ const LogIn = async (req, res, next) => {
         existingUser[0].status
       );
 
-      const refreshToken = createRefreshToken(existingUser[0].idprofile,  existingUser[0].status);
+      const refreshToken = createRefreshToken(
+        existingUser[0].idprofile,
+        existingUser[0].status
+      );
       await pool.execute(
         `UPDATE profile SET refreshToken = ? WHERE idprofile = ?`,
         [refreshToken, existingUser[0].idprofile]

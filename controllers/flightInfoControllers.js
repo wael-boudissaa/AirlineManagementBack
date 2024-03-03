@@ -5,10 +5,10 @@ const mysql = require("mysql2/promise");
 const { v4: uuidv4 } = require("uuid");
 const uuid = uuidv4();
 const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "wael",
-  database: "flightmanagement",
+  host: "sql11.freemysqlhosting.net",
+  user: "sql11688344",
+  password: "fkjJj5KBKt",
+  database: "sql11688344",
 });
 
 const getFlightInfos = async (req, res) => {

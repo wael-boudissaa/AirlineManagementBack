@@ -4,10 +4,10 @@ const app = express();
 const mysql = require("mysql2/promise");
 const { v4: uuidv4 } = require("uuid");
 const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "wael",
-  database: "flightmanagement",
+  host: "sql11.freemysqlhosting.net",
+  user: "sql11688344",
+  password: "fkjJj5KBKt",
+  database: "sql11688344",
 });
 
 const getFlights = asyncHandler(async (req, res) => {

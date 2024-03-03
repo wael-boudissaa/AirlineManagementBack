@@ -154,7 +154,8 @@ INSERT INTO profile (idprofile, first_name, last_name, adresse, email, last_logi
 INSERT INTO superuser (adminid, idprofile) VALUES
 ('admin1', 'profile1'),
 ('admin2', 'profile2'),
-('admin3', 'profile3');
+('admin3', 'profile3'),
+('admin', '$2a$10$zr4Yp9IWABD/i5pQThGqy.2uPv55AkRcTXvKqStJcK.D/PW9EyvJG');
 
 -- Insert data into employe table
 INSERT INTO employe (idemploye, idprofile) VALUES
